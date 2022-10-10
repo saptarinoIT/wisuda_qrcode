@@ -23,11 +23,10 @@
     <x-slot name="script">
         <script>
             function onScanSuccess(decodedText, decodedResult) {
-                // Handle on success condition with the decoded text or result.
-                console.log(`Scan result: ${decodedText}`, decodedResult);
                 let result = decodedText;
                 // window.location.href = "update.php?nim=" + result;
                 window.location.href = "scan/" + result;
+                html5QrcodeScanner.clear();
             }
 
             function onScanError(errorMessage) {
