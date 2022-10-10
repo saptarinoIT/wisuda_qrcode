@@ -109,7 +109,7 @@
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('scan.index')">
+            <x-responsive-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
                 {{ __('Scan') }}
             </x-responsive-nav-link>
         </div>
