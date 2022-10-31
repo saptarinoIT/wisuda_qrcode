@@ -22,7 +22,6 @@
 
     <link rel="stylesheet" href="./build/assets/app.70c144cc.css">
     <script src="./build/assets/app.ab93cf8a.js"></script>
-    <link rel="stylesheet" href="">
 
 </head>
 
