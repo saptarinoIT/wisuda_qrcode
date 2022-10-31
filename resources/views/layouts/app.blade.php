@@ -20,8 +20,8 @@
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
-    <link rel="stylesheet" href="./build/assets/app.70c144cc.css">
-    <script src="./build/assets/app.ab93cf8a.js"></script>
+    <link rel="stylesheet" href="{{ asset('/assets/build/app.css') }}">
+    <script src="{{ asset('/assets/build/app.js') }}"></script>
 
 </head>
 
