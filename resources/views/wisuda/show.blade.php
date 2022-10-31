@@ -37,9 +37,7 @@
 
                     <h3 class="mt-3 text-lg font-bold text-blue-400">{{ $wisuda->nim }} -
                         {{ strtoupper($wisuda->nama_lengkap) }} </h3>
-                    <p class="text-xs text-gray-400">{{ ucwords($wisuda->ttl) }} /
-                        {{ ucwords($wisuda->jenis_kelamin) }}
-                    </p>
+                    <p class="text-xs font-medium text-gray-400">{{ ucwords($wisuda->ttl) }} </p>
 
                     <p class="mt-4 mb-1 text-xs text-blue-400 font-bold">JUDUL TUGAS AKHIR</p>
                     <hr />

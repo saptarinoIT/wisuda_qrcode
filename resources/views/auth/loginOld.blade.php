@@ -1,5 +1,16 @@
-<x-guest-layout>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ config('app.name') }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
+</head>
+
+<body>
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
         <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
             <div class="flex flex-col overflow-y-auto md:flex-row">
@@ -11,9 +22,7 @@
                 </div>
                 <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
                     <div class="w-full">
-                        <a href="{{ route('login') }}">
-                            <img src="{{ asset('img/logo-crop.png') }}" class="w-40 pb-6">
-                        </a>
+                        <img src="{{ asset('img/logo-crop.png') }}" class="w-34 pb-8">
                         <h1
                             class="mb-4 text-xl font-semibold text-gray-700
                             dark:text-gray-200">
@@ -42,13 +51,10 @@
                                     {{ __('Log in') }}
                                 </x-primary-button>
 
-                                <span class="text-xs font-medium pt-5 text-gray-500">Daftar Wisuda STITEK Bontang
-                                    {{ date('Y') }}
-                                    <a class="font-bold duration-300 text-gray-600 hover:text-gray-900 hover:underline underline-offset-2"
-                                        href="{{ route('pendaftaran.create') }}">
-                                        {{ __('Klik Disini') }}
-                                    </a>
-                                </span>
+                                <a class="underline font-light text-xs py-2 text-gray-600 hover:text-gray-600"
+                                    href="{{ route('pendaftaran.create') }}">
+                                    {{ __('Daftar Wisuda STITEK Bontang ') . date('Y') }}
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -56,47 +62,6 @@
             </div>
         </div>
     </div>
+</body>
 
-    {{-- <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="logo-auth" />
-            </a>
-        </x-slot>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
-                    required autofocus />
-
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                    autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
-        </form>
-
-
-    </x-auth-card> --}}
-</x-guest-layout>
+</html>

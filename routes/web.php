@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WisudaController;
@@ -19,14 +20,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
+    // return view('auth._login');
 });
 
 Route::get('/dashboard', function () {
-    $totalWisuda = Wisuda::all();
-    $wisudaHadir = Wisuda::where('kehadiran', 'ya')->get();
-    $wisudaTdkHadir = Wisuda::where('kehadiran', 'tidak')->get();
-    return view('dashboard', compact('totalWisuda', 'wisudaHadir', 'wisudaTdkHadir'));
+    if (auth()->user()->level == 'admin' or auth()->user()->level == 'petugas') {
+        $year = date('Y');
+        $totalWisuda = Wisuda::where('tahun', $year)->where('status', 'diterima')->get();
+        $wisudaHadir = Wisuda::where('kehadiran', 'ya')->where('tahun', $year)->where('status', 'diterima')->get();
+        $wisudaTdkHadir = Wisuda::where('kehadiran', 'tidak')->where('tahun', $year)->where('status', 'diterima')->get();
+        return view('dashboard', compact('totalWisuda', 'wisudaHadir', 'wisudaTdkHadir'));
+    }
+    if (auth()->user()->level == 'mahasiswa') {
+        $userId = auth()->user()->id;
+        $wisuda = Wisuda::where('user_id', $userId)->first();
+        $totalWisuda = Wisuda::where('tahun', $wisuda->tahun)->where('status', 'diterima')->get();
+        return view('dashboard', compact('totalWisuda'));
+    }
 })->middleware(['auth'])->name('dashboard');
+
+Route::post('pendaftaran/{id}/validasi', [PendaftaranController::class, 'validasi'])->middleware('auth')->name('pendaftaran.validasi');
+Route::resource('pendaftaran', PendaftaranController::class);
 
 Route::resource('users', UsersController::class)->except('show')->middleware(['auth']);
 Route::get('wisuda/hadir/{id}', [WisudaController::class, 'hadir'])->name('wisuda.hadir')->middleware('auth');

@@ -15,7 +15,8 @@ class WisudaController extends Controller
      */
     public function index()
     {
-        $wisuda = Wisuda::all();
+        $year = date('Y');
+        $wisuda = Wisuda::where('tahun', $year)->where('status', 'diterima')->get();
         return view('wisuda.index', compact('wisuda'));
     }
 
@@ -41,7 +42,6 @@ class WisudaController extends Controller
             "nim" => 'required|unique:wisuda,nim',
             "nama_lengkap" => 'required',
             "ttl" => 'required',
-            "jenis_kelamin" => 'required|in:laki-laki,perempuan',
             "judul_ta" => 'required',
             "ipk" => 'required',
             "jurusan" => 'required|in:teknik informatika, teknik elektro',
@@ -51,10 +51,10 @@ class WisudaController extends Controller
                 'nim' => htmlspecialchars(strtolower($request->nim)),
                 'nama_lengkap' => htmlspecialchars(strtolower($request->nama_lengkap)),
                 'ttl' => htmlspecialchars(strtolower($request->ttl)),
-                'jenis_kelamin' => htmlspecialchars($request->jenis_kelamin),
                 'judul_ta' => htmlspecialchars(strtolower($request->judul_ta)),
                 'ipk' => htmlspecialchars(strtolower($request->ipk)),
                 'jurusan' => htmlspecialchars(strtolower($request->jurusan)),
+                'tahun' => date('Y'),
             ]);
             return redirect()->route('wisuda.index')->with('status', 'Data berhasil ditambahkan.');
         }
@@ -97,7 +97,6 @@ class WisudaController extends Controller
             "nim" => 'required',
             "nama_lengkap" => 'required',
             "ttl" => 'required',
-            "jenis_kelamin" => 'required|in:laki-laki,perempuan',
             "judul_ta" => 'required',
             "ipk" => 'required',
             "jurusan" => 'required|in:teknik informatika,teknik elektro',
@@ -108,11 +107,11 @@ class WisudaController extends Controller
                 'nim' => htmlspecialchars(strtolower($request->nim)),
                 'nama_lengkap' => htmlspecialchars(strtolower($request->nama_lengkap)),
                 'ttl' => htmlspecialchars(strtolower($request->ttl)),
-                'jenis_kelamin' => htmlspecialchars($request->jenis_kelamin),
                 'judul_ta' => htmlspecialchars(strtolower($request->judul_ta)),
                 'ipk' => htmlspecialchars(strtolower($request->ipk)),
                 'jurusan' => htmlspecialchars(strtolower($request->jurusan)),
                 'kehadiran' => htmlspecialchars(strtolower($request->kehadiran)),
+                'tahun' => date('Y'),
             ]);
             return redirect()->route('wisuda.index')->with('status', 'Data berhasil dirubah.');
         }

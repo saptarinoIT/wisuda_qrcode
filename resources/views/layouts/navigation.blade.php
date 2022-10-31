@@ -6,39 +6,55 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        {{-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> --}}
-                        <span class="text-xl block h-auto w-auto fill-current text-gray-800"><strong
-                                class="text-blue-700">STITEK</strong>
-                            Bontang</span>
+                        <img src="{{ asset('img/logo-crop.png') }}" class="w-28">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Home') }}
                     </x-nav-link>
                 </div>
 
                 @if (Auth::user()->level == 'admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index', 'users.create', 'users.edit')">
-                            {{ __('Data User') }}
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
+                        <x-nav-link :href="route('pendaftaran.index')" :active="request()->routeIs(
+                            'pendaftaran.index',
+                            'pendaftaran.create',
+                            'pendaftaran.edit',
+                            'pendaftaran.show',
+                        )">
+                            {{ __('Pendaftaran') }}
+                        </x-nav-link>
+                    </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
+                        <x-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.edit', 'wisuda.show')">
+                            {{ __('Wisudawan') }}
+                        </x-nav-link>
+                    </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
+                        <x-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
+                            {{ __('Scan') }}
                         </x-nav-link>
                     </div>
                 @endif
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
-                    <x-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.edit')">
-                        {{ __('Wisudawan') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
-                    <x-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
-                        {{ __('Scan') }}
-                    </x-nav-link>
-                </div>
+                @if (auth()->user()->level == 'mahasiswa')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
+                        <x-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
+                            {{ __('Data Wisuda') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -65,7 +81,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link class="text-red-500 hover:text-red-700 text-xs" :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
@@ -95,24 +111,31 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Home') }}
             </x-responsive-nav-link>
         </div>
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index', 'users.create', 'users.edit')">
-                {{ __('Data User') }}
-            </x-responsive-nav-link>
-        </div>
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.show', 'wisuda.edit')">
-                {{ __('Wisuda') }}
-            </x-responsive-nav-link>
-        </div>
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
-                {{ __('Scan') }}
-            </x-responsive-nav-link>
-        </div>
+        @if (Auth::user()->level == 'admin')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index', 'users.create', 'users.edit')">
+                    {{ __('User') }}
+                </x-responsive-nav-link>
+            </div>
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('pendaftaran.index')" :active="request()->routeIs('pendaftaran.index', 'pendaftaran.create', 'pendaftaran.edit')">
+                    {{ __('Pendaftaran') }}
+                </x-responsive-nav-link>
+            </div>
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
+                    {{ __('Scan') }}
+                </x-responsive-nav-link>
+            </div>
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.show', 'wisuda.edit')">
+                    {{ __('Wisuda') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

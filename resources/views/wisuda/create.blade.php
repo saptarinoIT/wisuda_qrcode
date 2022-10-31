@@ -35,21 +35,11 @@
                             <x-input-error :messages="$errors->get('ttl')" class="mt-2" />
                         </div>
 
-                        <!-- Jenis Kelamin -->
-                        <div>
-                            <x-input-label for="jenis_kelamin" :value="__('Jenis Kelamin')" />
-                            <x-text-select id="jenis_kelamin" class="block mt-1 w-full" name="jenis_kelamin" required>
-                                <option value="laki-laki">Laki-Laki</option>
-                                <option value="perempuan">Perempuan</option>
-                            </x-text-select>
-                            <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
-                        </div>
-
                         <!-- Judul Tugas Akhir -->
                         <div>
                             <x-input-label for="judul_ta" :value="__('Judul Tugas Akhir')" />
                             <textarea name="judul_ta" id="judul_ta"
-                                class="block mt-1 w-full border rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                class="px-4 py-2 block mt-1 w-full border rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 cols="1" rows="3" required></textarea>
                             <x-input-error :messages="$errors->get('judul_ta')" class="mt-2" />
                         </div>

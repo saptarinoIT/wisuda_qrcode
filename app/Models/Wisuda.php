@@ -13,6 +13,10 @@ class Wisuda extends Model
     public $incrementing = false;
     protected $keyType = 'bigint';
     protected $fillable = [
-        'nim', 'nama_lengkap', 'ttl', 'jenis_kelamin', 'judul_ta', 'ipk', 'jurusan', 'kehadiran'
+        'nim', 'user_id', 'nama_lengkap', 'ttl', 'judul_ta', 'ipk', 'jurusan', 'kehadiran', 'tahun', 'foto', 'orangtua', 'pendamping', 'status',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
