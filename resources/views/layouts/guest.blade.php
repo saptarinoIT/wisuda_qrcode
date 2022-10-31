@@ -14,8 +14,10 @@
     <!-- Scripts -->
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
-    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
-    <script src="{{ asset('build/assets/app.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('assets/build/app.css') }}">
+    <script src="{{ asset('assets/build/app.js') }}"></script>
+
 </head>
 
 <body>
