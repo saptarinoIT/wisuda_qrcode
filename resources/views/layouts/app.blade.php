@@ -17,8 +17,11 @@
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('vendor/qrcode/html5-qrcode.min.js') }}"></script>
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
+
+    <link rel="stylesheet" href="{{ asset('build/assets/app.70c144cc.css') }}">
+    <script src="{{ asset('build/assets/app.ab93cf8a.js') }}"></script>
 
 </head>
 
