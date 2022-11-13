@@ -20,8 +20,8 @@
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
-    <link rel="stylesheet" href="{{ asset('assets/build/app.css') }}">
-    <script src="{{ asset('assets/build/app.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/vite/app.css') }}">
+    <script src="{{ asset('assets/vite/app.js') }}"></script>
 
     <style>
         .dropdown:hover .dropdown-menu {
