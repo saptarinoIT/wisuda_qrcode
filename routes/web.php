@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\UndanganController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WisudaController;
 use App\Models\Wisuda;
@@ -39,14 +40,17 @@ Route::get('/dashboard', function () {
     }
 })->middleware(['auth'])->name('dashboard');
 
-Route::post('pendaftaran/{id}/validasi', [PendaftaranController::class, 'validasi'])->middleware('auth')->name('pendaftaran.validasi');
+Route::get('pendaftaran/{id}/validasi', [PendaftaranController::class, 'validasi'])->middleware('auth')->name('pendaftaran.validasi');
 Route::resource('pendaftaran', PendaftaranController::class);
 
 Route::resource('users', UsersController::class)->except('show')->middleware(['auth']);
+Route::get('wisuda/all', [WisudaController::class, 'indexAll'])->name('wisuda.semua')->middleware('auth');
 Route::get('wisuda/hadir/{id}', [WisudaController::class, 'hadir'])->name('wisuda.hadir')->middleware('auth');
 Route::resource('wisuda', WisudaController::class)->middleware('auth');
 
 Route::get('scan', [ScanController::class, 'index'])->name('scan.index')->middleware(['auth']);
 Route::get('scan/{id}', [ScanController::class, 'update'])->name('scan.update')->middleware(['auth']);
+
+Route::get('undangan-wisuda', [UndanganController::class, 'index'])->name('undangan.index')->middleware(['auth']);
 
 require __DIR__ . '/auth.php';

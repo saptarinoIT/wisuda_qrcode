@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col items-center justify-center sm:flex-row  sm:justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Data Wisuda ') . date('Y') }}
+                {{ __('Data Wisuda ') . $year }}
             </h2>
             {{-- <a href="{{ route('wisuda.create') }}"
                 class="mt-2 sm:mt-0 text-sm bg-blue-600 px-3 py-2 rounded shadow border-none text-white">Tambah
@@ -25,9 +25,11 @@
                                 <x-th-table>NIM Mahasiswa</x-th-table>
                                 <x-th-table>Nama Mahasiswa</x-th-table>
                                 <x-th-table>Jurusan</x-th-table>
-                                <x-th-table>Hadir</x-th-table>
-                                <x-th-table>Orang Tua</x-th-table>
-                                <x-th-table>Pendamping</x-th-table>
+                                @if (auth()->user()->level != 'mahasiswa')
+                                    <x-th-table>Hadir</x-th-table>
+                                    <x-th-table>Orang Tua</x-th-table>
+                                    <x-th-table>Pendamping</x-th-table>
+                                @endif
                                 <x-th-table>Aksi</x-th-table>
                             </tr>
                         </thead>
@@ -37,36 +39,40 @@
                                     <x-td-table>{{ $wis->nim }}</x-td-table>
                                     <x-td-table>{{ ucwords(strtolower($wis->nama_lengkap)) }}</x-td-table>
                                     <x-td-table>{{ ucwords($wis->jurusan) }}</x-td-table>
-                                    <x-td-table>
-                                        @if ($wis->kehadiran == 'ya')
-                                            <span class="text-green-700 text-xs font-bold">Hadir</span>
-                                        @else
-                                            <span class="text-red-700 text-xs font-bold">Tidak
-                                                Hadir</span>
-                                        @endif
-                                    </x-td-table>
-                                    <x-td-table>
-                                        @if ($wis->orangtua == 'ya')
-                                            <span class="text-green-700 text-xs font-bold">Hadir</span>
-                                        @else
-                                            <span class="text-red-700 text-xs font-bold">Tidak
-                                                Hadir</span>
-                                        @endif
-                                    </x-td-table>
-                                    <x-td-table>
-                                        @if ($wis->pendamping == 'ya')
-                                            <span class="text-green-700 text-xs font-bold">Hadir</span>
-                                        @else
-                                            <span class="text-red-700 text-xs font-bold">Tidak
-                                                Hadir</span>
-                                        @endif
-                                    </x-td-table>
+                                    @if (auth()->user()->level != 'mahasiswa')
+                                        <x-td-table>
+                                            @if ($wis->kehadiran == 'ya')
+                                                <span class="text-green-700 text-xs font-bold">Hadir</span>
+                                            @else
+                                                <span class="text-red-700 text-xs font-bold">Tidak
+                                                    Hadir</span>
+                                            @endif
+                                        </x-td-table>
+                                        <x-td-table>
+                                            @if ($wis->orangtua == 'ya')
+                                                <span class="text-green-700 text-xs font-bold">Hadir</span>
+                                            @else
+                                                <span class="text-red-700 text-xs font-bold">Tidak
+                                                    Hadir</span>
+                                            @endif
+                                        </x-td-table>
+                                        <x-td-table>
+                                            @if ($wis->pendamping == 'ya')
+                                                <span class="text-green-700 text-xs font-bold">Hadir</span>
+                                            @else
+                                                <span class="text-red-700 text-xs font-bold">Tidak
+                                                    Hadir</span>
+                                            @endif
+                                        </x-td-table>
+                                    @endif
                                     <td class="flex gap-1">
                                         <x-btn-detail href="{{ route('wisuda.show', $wis->nim) }}" />
-                                        <x-btn-edit href="{{ route('wisuda.edit', $wis->nim) }}" />
-                                        @if ($wis->kehadiran == 'tidak')
-                                            <a href="{{ route('wisuda.hadir', $wis->nim) }}"
-                                                class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Hadir</a>
+                                        @if (auth()->user()->level != 'mahasiswa')
+                                            <x-btn-edit href="{{ route('wisuda.edit', $wis->nim) }}" />
+                                            @if ($wis->kehadiran == 'tidak')
+                                                <a href="{{ route('wisuda.hadir', $wis->nim) }}"
+                                                    class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Hadir</a>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

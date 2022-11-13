@@ -20,7 +20,11 @@ class PendaftaranController extends Controller
 
     public function validasi($id)
     {
-        //
+        $wisuda = Wisuda::findOrFail($id);
+        $wisuda->status = 'diterima';
+        $wisuda->save();
+        toast('Data Pendaftaran Diterima!', 'success');
+        return redirect()->route('wisuda.index');
     }
 
     public function create()
@@ -28,12 +32,6 @@ class PendaftaranController extends Controller
         return view('pendaftaran._create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = $request->validate([
@@ -43,7 +41,7 @@ class PendaftaranController extends Controller
             "ttl" => 'required',
             "judul_ta" => 'required',
             "ipk" => 'required',
-            "jurusan" => 'required|in:teknik informatika, teknik elektro',
+            "jurusan" => 'required|in:teknik informatika,teknik elektro',
         ]);
         if ($validate) {
             $user = User::create([
@@ -71,48 +69,55 @@ class PendaftaranController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $wisuda = Wisuda::findOrFail($id);
+        return view('wisuda.show', compact('wisuda'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $wisuda = Wisuda::findOrFail($id);
+        return view('pendaftaran._edit', compact('wisuda'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            "nim" => 'required',
+            "nama_lengkap" => 'required',
+            "email" => 'required',
+            "ttl" => 'required',
+            "judul_ta" => 'required',
+            "ipk" => 'required',
+            "jurusan" => 'required|in:teknik informatika,teknik elektro',
+        ]);
+        if ($validate) {
+            $wisuda = Wisuda::findOrFail($id);
+            $user = User::where('id', $wisuda->user_id)->first();
+            $user->email = htmlspecialchars(strtolower($request->email));
+            $user->save();
+
+            $wisuda->nim = htmlspecialchars(strtolower($request->nim));
+            $wisuda->nama_lengkap = htmlspecialchars(strtolower($request->nama_lengkap));
+            $wisuda->ttl = htmlspecialchars(strtolower($request->ttl));
+            $wisuda->judul_ta = htmlspecialchars(strtolower($request->judul_ta));
+            $wisuda->ipk = htmlspecialchars(strtolower($request->ipk));
+            $wisuda->jurusan = htmlspecialchars(strtolower($request->jurusan));
+            $wisuda->save();
+
+            toast('Data Wisuda Berhasil Dirubah!', 'success');
+            return redirect(RouteServiceProvider::HOME);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $wisuda = Wisuda::findOrFail($id);
+        $user = User::where('id', $wisuda->user_id)->first();
+        $user->delete();
+        $wisuda->delete();
+        toast('Data Pendaftaran Berhasil Dihapuskan!', 'success');
+        return redirect()->route('pendaftaran.index');
     }
 }

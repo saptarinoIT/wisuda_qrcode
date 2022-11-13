@@ -23,6 +23,11 @@
     <link rel="stylesheet" href="{{ asset('assets/build/app.css') }}">
     <script src="{{ asset('assets/build/app.js') }}"></script>
 
+    <style>
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">

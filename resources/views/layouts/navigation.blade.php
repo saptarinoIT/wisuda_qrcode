@@ -17,10 +17,48 @@
                     </x-nav-link>
                 </div>
 
-                @if (Auth::user()->level == 'admin')
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
+                @if (Auth::user()->level == 'admin' or Auth::user()->level == 'petugas')
+                    <div @click.away="open = false" class="relative hidden space-x-8 sm:-my-px sm:ml-5 sm:flex"
+                        x-data="{ open: false }">
+                        <button @click="open = !open"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5
+                    text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700
+                    focus:border-gray-300 transition duration-150 ease-in-out">
+                            <span>Data</span>
+                            <svg fill="currentColor" viewBox="0 0 20 20"
+                                :class="{ 'rotate-180': open, 'rotate-0': !open }"
+                                class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 w-full mt-16 origin-top-right rounded-md shadow-lg md:w-48 z-50">
+                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800 z-50">
+                                @if (Auth::user()->level == 'admin')
+                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                        href="{{ route('users.index') }}">Users Login</a>
+                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                        href="{{ route('pendaftaran.index') }}">Pendaftaran</a>
+                                @endif
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="{{ route('wisuda.index') }}">Wisudawan/ti</a>
+                                @if (Auth::user()->level == 'admin')
+                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                        href="{{ route('wisuda.semua') }}">Semua Wisuda</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index', 'users.create', 'users.edit')">
-                            {{ __('Users') }}
+                            {{ __('User') }}
                         </x-nav-link>
                     </div>
 
@@ -37,9 +75,9 @@
 
                     <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
                         <x-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.edit', 'wisuda.show')">
-                            {{ __('Wisudawan') }}
+                            {{ __('Wisuda') }}
                         </x-nav-link>
-                    </div>
+                    </div> --}}
 
                     <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
                         <x-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
@@ -50,10 +88,18 @@
 
                 @if (auth()->user()->level == 'mahasiswa')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
-                        <x-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
+                        <x-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.show')">
                             {{ __('Data Wisuda') }}
                         </x-nav-link>
                     </div>
+
+                    {{-- @if ($wisuda->status == 'diterima')
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
+                            <x-nav-link :href="route('undangan.index')" :active="request()->routeIs('undangan.index')">
+                                {{ __('Cetak Undangan') }}
+                            </x-nav-link>
+                        </div>
+                    @endif --}}
                 @endif
             </div>
 
@@ -77,6 +123,15 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @if (auth()->user()->level == 'mahasiswa')
+                            <x-dropdown-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('pendaftaran.edit', $wisuda->nim)">
+                                {{ __('Data Wisuda') }}
+                            </x-dropdown-link>
+                        @endif
+                        <x-dropdown-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('logout')">
+                            {{ __('Profil') }}
+                        </x-dropdown-link>
+                        <hr />
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -117,22 +172,30 @@
         @if (Auth::user()->level == 'admin')
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index', 'users.create', 'users.edit')">
-                    {{ __('User') }}
+                    {{ __('Data Users Login') }}
                 </x-responsive-nav-link>
             </div>
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('pendaftaran.index')" :active="request()->routeIs('pendaftaran.index', 'pendaftaran.create', 'pendaftaran.edit')">
-                    {{ __('Pendaftaran') }}
+                    {{ __('Data Pendaftaran') }}
                 </x-responsive-nav-link>
             </div>
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
-                    {{ __('Scan') }}
+                    {{ __('Data Scan') }}
                 </x-responsive-nav-link>
             </div>
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.show', 'wisuda.edit')">
-                    {{ __('Wisuda') }}
+                    {{ __('Data Wisuda') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
+
+        @if (auth()->user()->level == 'mahasiswa')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.show', 'wisuda.edit')">
+                    {{ __('Data Wisuda') }}
                 </x-responsive-nav-link>
             </div>
         @endif
@@ -145,13 +208,24 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                @if (auth()->user()->level == 'mahasiswa')
+                    <x-responsive-nav-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('pendaftaran.edit', $wisuda->nim)">
+                        {{ __('Data Wisuda') }}
+                    </x-responsive-nav-link>
+                @endif
+                <x-responsive-nav-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('logout')">
+                    {{ __('Profil') }}
+                </x-responsive-nav-link>
+                <hr />
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                                        this.closest('form').submit();"
+                        class="text-red-600 hover:text-red-800">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

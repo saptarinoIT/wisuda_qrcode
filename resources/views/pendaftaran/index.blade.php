@@ -31,12 +31,20 @@
                                     <x-td-table>{{ ucwords($pend->nama_lengkap) }}</x-td-table>
                                     <td class="flex gap-1">
                                         <x-btn-detail href="{{ route('pendaftaran.show', $pend->nim) }}" />
-                                        <x-btn-edit href="{{ route('pendaftaran.edit', $pend->nim) }}" />
+                                        {{-- <x-btn-edit href="{{ route('pendaftaran.edit', $pend->nim) }}" /> --}}
                                         @if ($pend->status == 'diproses')
                                             <a href="{{ route('pendaftaran.validasi', $pend->nim) }}"
                                                 class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Verif</a>
-                                            <a href="{{ route('pendaftaran.destroy', $pend->nim) }}"
-                                                class="px-3 py-1 bg-red-500 hover:bg-red-600 text-xs rounded shadow text-white border-none">Hapus</a>
+                                            {{-- <a href="{{ route('pendaftaran.destroy', $pend->nim) }}"
+                                                class="px-3 py-1 bg-red-500 hover:bg-red-600 text-xs rounded shadow text-white border-none">Hapus</a> --}}
+                                            <form action="{{ route('pendaftaran.destroy', $pend->nim) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit"
+                                                    class="px-3 py-1 bg-red-500 hover:bg-red-600 text-xs rounded shadow text-white border-none"
+                                                    onclick="return confirm('Hapus data ?')">Hapus</button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>

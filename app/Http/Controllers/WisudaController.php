@@ -4,38 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Wisuda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class WisudaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $year = date('Y');
-        $wisuda = Wisuda::where('tahun', $year)->where('status', 'diterima')->get();
-        return view('wisuda.index', compact('wisuda'));
+        if (Auth::user()->level == 'mahasiswa') {
+            $mhs = Auth::user();
+            $year = $mhs->wisuda->tahun;
+            $wisuda = Wisuda::where('tahun', $year)->where('status', 'diterima')->get();
+            return view('wisuda.index', compact('wisuda', 'year'));
+        } else {
+            $year = date('Y');
+            $wisuda = Wisuda::where('tahun', $year)->where('status', 'diterima')->get();
+            return view('wisuda.index', compact('wisuda', 'year'));
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function indexAll()
+    {
+        $wisuda = Wisuda::all();
+        return view('wisuda.indexall', compact('wisuda'));
+    }
+
     public function create()
     {
         return view('wisuda.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = $request->validate([
@@ -60,37 +58,18 @@ class WisudaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $wisuda = Wisuda::findOrFail($id);
         return view('wisuda.show', compact('wisuda'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $wisuda = Wisuda::findOrFail($id);
         return view('wisuda.edit', compact('wisuda'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
@@ -117,12 +96,6 @@ class WisudaController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $wisuda = Wisuda::findOrFail($id);
