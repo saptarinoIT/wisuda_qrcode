@@ -74,11 +74,11 @@
                                                     class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Mhs</a>
                                             @endif
                                             @if ($wis->orangtua == 'tidak')
-                                                <a href="{{ route('wisuda.hadir', $wis->nim) }}"
+                                                <a href="{{ route('wisuda.hadir', 'orangtua_' . $wis->nim) }}"
                                                     class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">OrangTua</a>
                                             @endif
                                             @if ($wis->pendamping == 'tidak')
-                                                <a href="{{ route('wisuda.hadir', $wis->nim) }}"
+                                                <a href="{{ route('wisuda.hadir', 'pendamping_' . $wis->nim) }}"
                                                     class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Pendamping</a>
                                             @endif
                                         @endif

@@ -70,7 +70,7 @@
 
                         <!-- Kehadiran -->
                         <div>
-                            <x-input-label for="kehadiran" :value="__('Kehadiran')" />
+                            <x-input-label for="kehadiran" :value="__('Kehadiran Mahasiswa')" />
                             <x-text-select id="kehadiran" class="block mt-1 w-full" name="kehadiran" required>
                                 <option value="ya" {{ $wisuda->kehadiran == 'ya' ? 'selected' : '' }}>Hadir
                                 </option>
@@ -79,6 +79,30 @@
                                 </option>
                             </x-text-select>
                             <x-input-error :messages="$errors->get('kehadiran')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="orangtua" :value="__('Kehadiran Orang Tua')" />
+                            <x-text-select id="orangtua" class="block mt-1 w-full" name="orangtua" required>
+                                <option value="ya" {{ $wisuda->orangtua == 'ya' ? 'selected' : '' }}>Hadir
+                                </option>
+                                <option value="tidak" {{ $wisuda->orangtua == 'tidak' ? 'selected' : '' }}>
+                                    Tidak Hadir
+                                </option>
+                            </x-text-select>
+                            <x-input-error :messages="$errors->get('orangtua')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="pendamping" :value="__('Kehadiran Pendamping')" />
+                            <x-text-select id="pendamping" class="block mt-1 w-full" name="pendamping" required>
+                                <option value="ya" {{ $wisuda->pendamping == 'ya' ? 'selected' : '' }}>Hadir
+                                </option>
+                                <option value="tidak" {{ $wisuda->pendamping == 'tidak' ? 'selected' : '' }}>
+                                    Tidak Hadir
+                                </option>
+                            </x-text-select>
+                            <x-input-error :messages="$errors->get('pendamping')" class="mt-2" />
                         </div>
 
                     </div>

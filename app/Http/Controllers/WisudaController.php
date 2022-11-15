@@ -80,6 +80,8 @@ class WisudaController extends Controller
             "ipk" => 'required',
             "jurusan" => 'required|in:teknik informatika,teknik elektro',
             "kehadiran" => 'required|in:ya,tidak',
+            "orangtua" => 'required|in:ya,tidak',
+            "pendamping" => 'required|in:ya,tidak',
         ]);
         if ($validate) {
             Wisuda::findOrFail($id)->update([
@@ -90,6 +92,8 @@ class WisudaController extends Controller
                 'ipk' => htmlspecialchars(strtolower($request->ipk)),
                 'jurusan' => htmlspecialchars(strtolower($request->jurusan)),
                 'kehadiran' => htmlspecialchars(strtolower($request->kehadiran)),
+                'orangtua' => htmlspecialchars(strtolower($request->orangtua)),
+                'pendamping' => htmlspecialchars(strtolower($request->pendamping)),
                 'tahun' => date('Y'),
             ]);
             return redirect()->route('wisuda.index')->with('status', 'Data berhasil dirubah.');
@@ -105,10 +109,31 @@ class WisudaController extends Controller
 
     public function hadir($id)
     {
-        $wisuda = Wisuda::findOrFail($id);
-        $wisuda->kehadiran = 'ya';
-        $wisuda->save();
-        Alert::success('Mahasiswa Hadir', $wisuda->nim . ' - ' . ucwords($wisuda->nama_lengkap));
-        return redirect()->route('wisuda.index')->with('status', 'Mahasiswa Hadir.');
+        $wisuda = Wisuda::find($id);
+        $nim = substr($id, -9, null);
+
+        if ($wisuda) {
+            $wisuda->kehadiran = 'ya';
+            $wisuda->save();
+            Alert::success('Mahasiswa Hadir', $wisuda->nim . ' - ' . ucwords($wisuda->nama_lengkap));
+            return redirect()->route('wisuda.index')->with('status', 'Mahasiswa Hadir.');
+        } elseif ($id == 'orangtua_' . $nim) {
+            // dd($nim);
+            $wisuda = Wisuda::find($nim);
+            $wisuda->orangtua = 'ya';
+            $wisuda->save();
+            Alert::success('Orang Tua Mahasiswa Hadir', $wisuda->nim . ' - ' . ucwords($wisuda->nama_lengkap));
+            return redirect()->route('wisuda.index')->with('status', 'Mahasiswa Hadir.');
+        } elseif ($id == 'pendamping_' . $nim) {
+            // dd('pendamping');
+            $wisuda = Wisuda::find($nim);
+            $wisuda->pendamping = 'ya';
+            $wisuda->save();
+            Alert::success('Pendamping Mahasiswa Hadir', $wisuda->nim . ' - ' . ucwords($wisuda->nama_lengkap));
+            return redirect()->route('wisuda.index')->with('status', 'Mahasiswa Hadir.');
+        } else {
+            Alert::warning('Maaf Data Tidak Terdaftar!!!');
+            return redirect()->route('wisuda.index');
+        }
     }
 }
