@@ -71,7 +71,15 @@
                                             <x-btn-edit href="{{ route('wisuda.edit', $wis->nim) }}" />
                                             @if ($wis->kehadiran == 'tidak')
                                                 <a href="{{ route('wisuda.hadir', $wis->nim) }}"
-                                                    class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Hadir</a>
+                                                    class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Mhs</a>
+                                            @endif
+                                            @if ($wis->orangtua == 'tidak')
+                                                <a href="{{ route('wisuda.hadir', $wis->nim) }}"
+                                                    class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">OrangTua</a>
+                                            @endif
+                                            @if ($wis->pendamping == 'tidak')
+                                                <a href="{{ route('wisuda.hadir', $wis->nim) }}"
+                                                    class="px-3 py-1 bg-green-500 hover:bg-green-600 text-xs rounded shadow text-white border-none">Pendamping</a>
                                             @endif
                                         @endif
                                     </td>
