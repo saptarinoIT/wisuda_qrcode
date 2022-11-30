@@ -128,9 +128,9 @@
                                 {{ __('Data Wisuda') }}
                             </x-dropdown-link>
                         @endif
-                        <x-dropdown-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('logout')">
+                        {{-- <x-dropdown-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('logout')">
                             {{ __('Profil') }}
-                        </x-dropdown-link>
+                        </x-dropdown-link> --}}
                         <hr />
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -197,6 +197,19 @@
             </div>
         @endif
 
+        @if (auth()->user()->level == 'petugas')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('scan.index')" :active="request()->routeIs('scan.index')">
+                    {{ __('Data Scan') }}
+                </x-responsive-nav-link>
+            </div>
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.show', 'wisuda.edit')">
+                    {{ __('Data Wisuda') }}
+                </x-responsive-nav-link>
+            </div>
+        @endif
+
         @if (auth()->user()->level == 'mahasiswa')
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('wisuda.index')" :active="request()->routeIs('wisuda.index', 'wisuda.create', 'wisuda.show', 'wisuda.edit')">
@@ -218,9 +231,9 @@
                         {{ __('Data Wisuda') }}
                     </x-responsive-nav-link>
                 @endif
-                <x-responsive-nav-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('logout')">
+                {{-- <x-responsive-nav-link class="text-gray-500 hover:text-gray-700 text-xs" :href="route('logout')">
                     {{ __('Profil') }}
-                </x-responsive-nav-link>
+                </x-responsive-nav-link> --}}
                 <hr />
 
                 <!-- Authentication -->
