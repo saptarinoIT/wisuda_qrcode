@@ -8,7 +8,8 @@
     <div class="py-12">
         <section class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('pendaftaran.update', $wisuda->nim) }}">
+                <form method="POST" action="{{ route('pendaftaran.update', $wisuda->nim) }}"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('patch')
                     <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
@@ -77,6 +78,18 @@
                             </x-text-select>
                             <x-input-error :messages="$errors->get('jurusan')" class="mt-2" />
                         </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{{ asset('bukti_pembayaran/' . $wisuda->foto) }}" target="_blank"
+                            rel="noopener noreferrer">
+                            <img src="{{ asset('bukti_pembayaran/' . $wisuda->foto) }}" width="400"
+                                class="mt-4 mb-4">
+                        </a>
+                        <x-input-label for="foto" :value="__('Bukti Pembayaran Wisuda')" />
+                        <x-text-input id="foto" class="block mt-1 w-full" type="file" name="foto"
+                            :value="old('foto')" autofocus />
+                        <x-input-error :messages="$errors->get('foto')" class="mt-2" />
                     </div>
 
                     <p class="mt-4 text-xs font-bold">

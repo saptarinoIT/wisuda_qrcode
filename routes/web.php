@@ -45,6 +45,8 @@ Route::resource('pendaftaran', PendaftaranController::class);
 
 Route::resource('users', UsersController::class)->except('show')->middleware(['auth']);
 Route::get('wisuda/all', [WisudaController::class, 'indexAll'])->name('wisuda.semua')->middleware('auth');
+Route::get('wisuda/cetak/{id}', [WisudaController::class, 'cetak'])->name('wisuda.cetak')->middleware('auth');
+Route::get('wisuda/print/{id}', [WisudaController::class, 'print'])->name('wisuda.print')->middleware('auth');
 Route::get('wisuda/hadir/{id}', [WisudaController::class, 'hadir'])->name('wisuda.hadir')->middleware('auth');
 Route::resource('wisuda', WisudaController::class)->middleware('auth');
 

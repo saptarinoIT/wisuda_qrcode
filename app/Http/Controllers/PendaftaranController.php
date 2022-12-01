@@ -42,6 +42,7 @@ class PendaftaranController extends Controller
             "judul_ta" => 'required',
             "ipk" => 'required',
             "jurusan" => 'required|in:teknik informatika,teknik elektro',
+            "foto" => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         if ($validate) {
             $user = User::create([
@@ -50,6 +51,12 @@ class PendaftaranController extends Controller
                 'password' => Hash::make('mahasiswa'),
                 'level' => 'mahasiswa',
             ]);
+
+            $file = $request->file('foto');
+            // $nama_file = time() . "_" . $file->getClientOriginalName();
+            $nama_file = $request->nim . "." . $file->getClientOriginalExtension();
+            $tujuan_upload = 'bukti_pembayaran';
+            $file->move($tujuan_upload, $nama_file);
 
             Wisuda::create([
                 'nim' => htmlspecialchars(strtolower($request->nim)),
@@ -60,6 +67,8 @@ class PendaftaranController extends Controller
                 'ipk' => htmlspecialchars(strtolower($request->ipk)),
                 'jurusan' => htmlspecialchars(strtolower($request->jurusan)),
                 'tahun' => date('Y'),
+                'foto' => $nama_file,
+                'status' => 'diproses',
             ]);
 
             event(new Registered($user));
@@ -83,20 +92,42 @@ class PendaftaranController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validate = $request->validate([
-            "nim" => 'required',
-            "nama_lengkap" => 'required',
-            "email" => 'required',
-            "ttl" => 'required',
-            "judul_ta" => 'required',
-            "ipk" => 'required',
-            "jurusan" => 'required|in:teknik informatika,teknik elektro',
-        ]);
+        if ($request->file('foto') == null) {
+            $validate = $request->validate([
+                "nim" => 'required',
+                "nama_lengkap" => 'required',
+                "email" => 'required',
+                "ttl" => 'required',
+                "judul_ta" => 'required',
+                "ipk" => 'required',
+                "jurusan" => 'required|in:teknik informatika,teknik elektro',
+            ]);
+        } else {
+            $validate = $request->validate([
+                "nim" => 'required',
+                "nama_lengkap" => 'required',
+                "email" => 'required',
+                "ttl" => 'required',
+                "judul_ta" => 'required',
+                "ipk" => 'required',
+                "jurusan" => 'required|in:teknik informatika,teknik elektro',
+                "foto" => 'file|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+        }
         if ($validate) {
             $wisuda = Wisuda::findOrFail($id);
             $user = User::where('id', $wisuda->user_id)->first();
             $user->email = htmlspecialchars(strtolower($request->email));
             $user->save();
+
+            if ($request->file('foto') != null) {
+                $file = $request->file('foto');
+                // $nama_file = time() . "_" . $file->getClientOriginalName();
+                $nama_file = $request->nim . "." . $file->getClientOriginalExtension();
+                $tujuan_upload = 'bukti_pembayaran';
+                $file->move($tujuan_upload, $nama_file);
+            }
+
 
             $wisuda->nim = htmlspecialchars(strtolower($request->nim));
             $wisuda->nama_lengkap = htmlspecialchars(strtolower($request->nama_lengkap));
@@ -104,6 +135,9 @@ class PendaftaranController extends Controller
             $wisuda->judul_ta = htmlspecialchars(strtolower($request->judul_ta));
             $wisuda->ipk = htmlspecialchars(strtolower($request->ipk));
             $wisuda->jurusan = htmlspecialchars(strtolower($request->jurusan));
+            if ($request->file('foto') != null) {
+                $wisuda->foto = $nama_file;
+            }
             $wisuda->save();
 
             toast('Data Wisuda Berhasil Dirubah!', 'success');

@@ -45,6 +45,10 @@
                     <p class="text-xs text-gray-400 font-bold"> {{ strtoupper($wisuda->jurusan) }} / <span
                             class="text-blue-400">IPK : </span> {{ $wisuda->ipk }} </p>
 
+                    <p class="text-xs text-white font-bold mt-4">
+                        <a href="{{ asset('bukti_pembayaran/' . $wisuda->foto) }}" target="_blank"
+                            rel="noopener noreferrer" class="bg-blue-600 p-2 rounded">{{ _('BUKTI PEMBAYARAN') }}</a>
+                    </p>
                 </div>
             </div>
         </section>

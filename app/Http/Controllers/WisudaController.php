@@ -9,6 +9,20 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class WisudaController extends Controller
 {
+    public function cetak($id)
+    {
+        $wisuda = Wisuda::where('user_id', $id)->first();
+        $nim = $wisuda->nim;
+        return view('wisuda._cetak', compact('nim', 'wisuda'));
+    }
+
+    public function print($id)
+    {
+        $wisuda = Wisuda::where('nim', $id)->first();
+        $nim = $wisuda->nim;
+        return view('wisuda.cetak', compact('nim', 'wisuda'));
+    }
+
     public function index()
     {
         if (Auth::user()->level == 'mahasiswa') {

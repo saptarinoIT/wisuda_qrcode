@@ -14,7 +14,7 @@
                         Pendaftaran Wisuda {{ date('Y') }}
                     </h1>
 
-                    <form method="POST" action="{{ route('pendaftaran.store') }}">
+                    <form method="POST" action="{{ route('pendaftaran.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
                             <!-- NIM Mahasiswa -->
@@ -60,7 +60,6 @@
                             <x-input-error :messages="$errors->get('judul_ta')" class="mt-2" />
                         </div>
 
-
                         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
                             <!-- Indeks Prestasi Kumulatif (IPK) -->
                             <div>
@@ -79,6 +78,13 @@
                                 </x-text-select>
                                 <x-input-error :messages="$errors->get('jurusan')" class="mt-2" />
                             </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="foto" :value="__('Bukti Pembayaran Wisuda')" />
+                            <x-text-input id="foto" class="block mt-1 w-full" type="file" name="foto"
+                                :value="old('foto')" required autofocus />
+                            <x-input-error :messages="$errors->get('foto')" class="mt-2" />
                         </div>
 
                         <div class="flex justify-end mt-4">
